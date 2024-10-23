@@ -6,5 +6,8 @@ export default defineConfig({
   define: {
     global: 'window',
   },
+  build: {
+    outDir: 'build', // Asegúrate de que sea 'build'
+  },
   plugins: [react()],
 });
