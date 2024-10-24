@@ -7,6 +7,12 @@
   ],
   "mimeTypes": {
     ".css": "text/css",
-    ".js": "application/javascript"
+    ".js": "application/javascript",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
+    ".svg": "image/svg+xml",
+    ".webp": "image/webp"
   }
 }
