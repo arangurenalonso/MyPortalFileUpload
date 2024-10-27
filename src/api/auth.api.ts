@@ -32,7 +32,32 @@ export const authApi = {
     const data = { email, password };
     return await httpClient.postJson<string>('/api/Auth/Login', data);
   },
+  forgotPasswordProcess: async (email: string) => {
+    const data = { email };
+    return await httpClient.postJson<AuthenticationResponse>(
+      '/api/Auth/ForgotPassword',
+      data
+    );
+  },
+  confirmEmail: async (token: string) => {
+    const data = { token };
+    return await httpClient.postJson<AuthenticationResponse>(
+      '/api/Auth/EmailConfirmation',
+      data
+    );
+  },
 
+  resetPasswordProcess: async (
+    token: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    const data = { token, password, confirmPassword };
+    return await httpClient.postJson<AuthenticationResponse>(
+      '/api/Auth/ResetPassword',
+      data
+    );
+  },
   register: async (params: registerParams) => {
     const data = {
       email: params.email,
@@ -41,7 +66,10 @@ export const authApi = {
       firstName: params.firstName,
       lastName: params.lastName,
     };
-    return await httpClient.postJson<string>('/api/auth/register', data);
+    return await httpClient.postJson<AuthenticationResponse>(
+      '/api/auth/register',
+      data
+    );
   },
 
   socialMediaProvider: async (params: socialMediaProviderParams) => {

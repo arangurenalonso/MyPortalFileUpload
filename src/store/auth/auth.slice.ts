@@ -27,6 +27,7 @@ export const authSlice = createSlice({
       state.user = null;
       state.errorMessage = null;
     },
+
     onSetError: (state, action: PayloadAction<string[]>) => {
       state.status = authStatusEnum.NOT_AUTHENTICATED;
       state.user = null;

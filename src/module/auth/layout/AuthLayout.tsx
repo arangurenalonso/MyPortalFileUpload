@@ -13,9 +13,10 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          p: 0,
         }}
       >
-        <div>{children}</div>
+        <Box sx={{ width: '100%' }}>{children}</Box>
       </Box>
     </>
   );

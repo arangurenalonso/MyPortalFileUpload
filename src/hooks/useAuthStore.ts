@@ -49,7 +49,16 @@ const useAuthStore = () => {
       dispatch(onClear());
     }, 5000);
   };
-
+  const confirmEmail = async (token: string) => {
+    dispatch(onChecking());
+    const authenticationResult = await authApi.confirmEmail(token);
+    if (authenticationResult.isErr()) {
+      const error = authenticationResult.error;
+      handleError(error);
+      return;
+    }
+    dispatch(onClear());
+  };
   const signInProcess = async (email: string, password: string) => {
     dispatch(onChecking());
     const authenticationResult = await authApi.login(email, password);
@@ -63,6 +72,40 @@ const useAuthStore = () => {
     await decodeToken(accessToken);
   };
 
+  const forgotPasswordProcess = async (email: string) => {
+    dispatch(onChecking());
+    const authenticationResult = await authApi.forgotPasswordProcess(email);
+    if (authenticationResult.isErr()) {
+      const error = authenticationResult.error;
+      handleError(error);
+      return false;
+    }
+    navigate(`/auth/password-reset-link-sent?email=${email}`, {
+      state: { replace: true },
+    });
+    dispatch(onClear());
+  };
+  const resetPasswordProcess = async (
+    token: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    dispatch(onChecking());
+    const authenticationResult = await authApi.resetPasswordProcess(
+      token,
+      password,
+      confirmPassword
+    );
+    if (authenticationResult.isErr()) {
+      const error = authenticationResult.error;
+      handleError(error);
+      return false;
+    }
+    navigate(`/auth/reset-password/successfully`, {
+      state: { replace: true },
+    });
+    dispatch(onClear());
+  };
   // const signInGoogleProcess = async (timezone: string) => {
   // let userCredential: UserCredential;
   // try {
@@ -100,8 +143,10 @@ const useAuthStore = () => {
       handleError(error);
       return;
     }
-    const accessToken = authenticationResult.value;
-    await decodeToken(accessToken);
+    navigate(`/auth/register-confirmation`, {
+      state: { replace: true },
+    });
+    dispatch(onClear());
   };
 
   const checkAuthTokenProcess = async () => {
@@ -112,8 +157,9 @@ const useAuthStore = () => {
     }
     const validTokenResponseResult = await authApi.validateToken(accessToken);
     if (validTokenResponseResult.isErr()) {
-      const error = validTokenResponseResult.error;
-      handleError(error);
+      logOutProcess();
+      // const error = validTokenResponseResult.error;
+      // handleError(error);
       return;
     }
     const validTokenResponse = validTokenResponseResult.value;
@@ -167,6 +213,9 @@ const useAuthStore = () => {
     redirectPath,
     //*Methods
     signInProcess,
+    confirmEmail,
+    forgotPasswordProcess,
+    resetPasswordProcess,
     registerProcess,
     checkAuthTokenProcess,
     logOutProcess,

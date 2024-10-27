@@ -3,19 +3,25 @@ import ThemeSwitcher from '../../../common/components/ThemeSwitcher';
 
 type TitleWithThemeToggleProp = {
   title: string;
+  showWellCome: boolean;
 };
 
-const TitleWithThemeToggle = ({ title }: TitleWithThemeToggleProp) => {
+const TitleWithThemeToggle = ({
+  title,
+  showWellCome,
+}: TitleWithThemeToggleProp) => {
   return (
     <>
-      <Typography
-        variant="h4"
-        sx={{ textAlign: 'center' }}
-        component="h4"
-        mb={2}
-      >
-        Welcome
-      </Typography>
+      {showWellCome && (
+        <Typography
+          variant="h4"
+          sx={{ textAlign: 'center' }}
+          component="h4"
+          mb={2}
+        >
+          Welcome
+        </Typography>
+      )}
       <Box
         sx={{
           display: 'flex',

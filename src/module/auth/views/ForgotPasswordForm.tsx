@@ -2,26 +2,23 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import useAuthStore from '../../../hooks/useAuthStore';
 import { Box, TextField, Button, Alert } from '@mui/material';
 
-type LoginFormInputs = {
+type ForgotPasswordFormInputs = {
   email: string;
-  password: string;
 };
-
-const LoginForm = () => {
-  const { signInProcess, errorMessage } = useAuthStore();
+const ForgotPasswordForm = () => {
+  const { forgotPasswordProcess, errorMessage } = useAuthStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>({
+  } = useForm<ForgotPasswordFormInputs>({
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    signInProcess(data.email, data.password);
+  const onSubmit: SubmitHandler<ForgotPasswordFormInputs> = async (data) => {
+    await forgotPasswordProcess(data.email);
   };
 
   return (
@@ -42,22 +39,6 @@ const LoginForm = () => {
           error={!!errors.email}
           helperText={errors.email?.message}
         />
-        <TextField
-          label="Password"
-          type="password"
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          {...register('password', {
-            required: 'Password is required',
-            minLength: {
-              value: 6,
-              message: 'Password must be at least 6 characters long',
-            },
-          })}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-        />
         <Button
           type="submit"
           fullWidth
@@ -65,7 +46,7 @@ const LoginForm = () => {
           color="primary"
           sx={{ mt: 3 }}
         >
-          Login
+          Submit
         </Button>
         {errorMessage && (
           <Alert severity="error" sx={{ mt: 2 }}>
@@ -77,4 +58,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;

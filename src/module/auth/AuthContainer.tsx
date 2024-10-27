@@ -10,9 +10,8 @@ const AuthContainer = () => {
     <>
       <AuthLayout>
         <Outlet />
-
-        <LoadingOverlay isLoading={status === authStatusEnum.CHECKING} />
       </AuthLayout>
+      <LoadingOverlay isLoading={status === authStatusEnum.CHECKING} />
     </>
   );
 };
